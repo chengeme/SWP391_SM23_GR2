@@ -37,7 +37,6 @@
             <!-- Navbar Right Menu-->
             <ul class="app-nav">
 
-
                 <!-- User Menu-->
                 <li><a class="app-nav__item" href="/homepage.jsp"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 

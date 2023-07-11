@@ -37,8 +37,8 @@
                 padding: 16px 16px;
                 text-decoration: none;
                 display: block;
+                font-size: 1.3rem;
             }
-
             .dropdown-content a:hover {
                 background-color: #ef2317;
                 color: white;
@@ -116,7 +116,7 @@
 
                     <!--<form action="ProductListController?tab=allproduct" method="get" >-->
                     <div class="col-lg-6 col-md-7 col-sm-0 header__search">
-                        
+
                         <input type="text" name="searchInput" class="header__search-input" placeholder="Tìm kiếm tại đây...">
 
                         <button class="header__search-btn" name="searchSubmit" value="submit">

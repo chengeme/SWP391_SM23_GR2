@@ -41,7 +41,7 @@ public class ProductDetailController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             FeedbackDAO feedbackDAO = new FeedbackDAO();
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
@@ -116,6 +116,7 @@ public class ProductDetailController extends HttpServlet {
                 return;
             } else {
                 String ProductID = request.getParameter("ProductID");
+
                 Products productDetail = pdao.getProductByID(ProductID);
                 ArrayList<Feedback> feedbackList;
                 if (request.getParameter("loadMore") != null) {
@@ -156,12 +157,13 @@ public class ProductDetailController extends HttpServlet {
                 feedbackList = feedbackDAO.getFeedbackListByProductId(ProductID, "3", "0");
                 request.setAttribute("feedbackList", feedbackList);
                 session.setAttribute("productDetail", productDetail);
+
             }
             if (user != null) {
                 session.setAttribute("checkBuyProduct", feedbackDAO.checkBuyProductByUserID(user.getUserID(), request.getParameter("ProductID")));
+                CartDAO cartDAO = new CartDAO();
+                session.setAttribute("AmountOfProductType", cartDAO.AmountOfProductTypeByUserID(user.getUserID()));
             }
-            CartDAO cartDAO = new CartDAO();
-            session.setAttribute("AmountOfProductType", cartDAO.AmountOfProductTypeByUserID(user.getUserID()));
             request.getRequestDispatcher("productDetail.jsp").forward(request, response);
         }
     }

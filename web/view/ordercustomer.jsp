@@ -278,7 +278,7 @@
                 text-decoration: none;
             }
             @media all and (max-width:375px){
-                
+
             }
         </style>
     </head>
@@ -315,27 +315,6 @@
                                         <div>Đã hủy</div>
                                     </a>                          
 
-                                    <!--                                    <div class="col-lg-3">
-                                                                            <div class="show-entries">
-                                                                                <a href="">Chờ xác nhận</a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-3">
-                                                                            <div class="show-entries">
-                                                                                <a href="">Đang giao</a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-2">
-                                                                            <div class="show-entries">
-                                                                                <a href="">Hoàn thành</a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-2">
-                                                                            <div class="show-entries">
-                                                                                <a href="">Đã hủy</a>
-                                                                            </div>
-                                                                        </div>-->
-
                                 </section>
 
                             </div>
@@ -343,9 +322,9 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr class="font-0">
-                                    <th>ID</th>
-                                    <th>Tên khách hàng</th>
-                                    <th style="width: 200px;">Nhân viên sale</th>
+                                    <th style="width: 200px;">Tên sản phẩm</th>
+                                    <th>Ảnh sản phẩm</th>
+                                    <th style="width: 130px;">Nhân viên sale</th>
                                     <th>Địa chỉ</th>
                                     <th>Ngày đặt</th>						
                                     <th>Trạng thái</th>						
@@ -357,7 +336,7 @@
                             <tbody>
                                 <tr class="font-1">
                                     <td>001</td>
-                                    <td>Nguyễn Văn A</td>
+                                    <td><img src="" style="width: 100px; height: 100px;"></td>
                                     <td>Nguyễn Thị H</td>
                                     <td>Việt Nam</td>
                                     <td> 15/7/2023</td>                        
@@ -365,7 +344,7 @@
                                     <td>$254</td>                                  
                                     <td>
                                         <div class="row">
-                                            <button class="btn btn-primary cols-1" type="button" title="Xóa" style="width: 31px;
+                                            <button class="btn btn-primary cols-1" type="button" title="Xóa" onclick="myFunction()" style="width: 31px;
                                                     height: 52px;"
                                                     onclick="myFunction(this)"><i class="fas fa-trash-alt" style="width: 16px;
                                                                           height: 19px;"></i>
@@ -389,5 +368,118 @@
             <!-- footer -->
         <jsp:include page="footer.jsp"></jsp:include>
         <!-- end footer -->
+        <script>
+            function deleteRow(r) {
+                var i = r.parentNode.parentNode.rowIndex;
+                document.getElementById("myTable").deleteRow(i);
+            }
+            jQuery(function () {
+                jQuery(".trash").click(function () {
+                    swal({
+                        title: "Cảnh báo",
+
+                        text: "Bạn có chắc chắn là muốn xóa người dùng này?",
+                        buttons: ["Hủy bỏ", "Đồng ý"],
+                    })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    swal("Đã xóa thành công.!", {
+
+                                    });
+                                }
+                            });
+                });
+            });
+            oTable = $('#sampleTable').dataTable();
+            $('#all').click(function (e) {
+                $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
+                e.stopImmediatePropagation();
+            });
+
+            //EXCEL
+            // $(document).ready(function () {
+            //   $('#').DataTable({
+
+            //     dom: 'Bfrtip',
+            //     "buttons": [
+            //       'excel'
+            //     ]
+            //   });
+            // });
+
+
+            //Thời Gian
+            function time() {
+                var today = new Date();
+                var weekday = new Array(7);
+                weekday[0] = "Chủ Nhật";
+                weekday[1] = "Thứ Hai";
+                weekday[2] = "Thứ Ba";
+                weekday[3] = "Thứ Tư";
+                weekday[4] = "Thứ Năm";
+                weekday[5] = "Thứ Sáu";
+                weekday[6] = "Thứ Bảy";
+                var day = weekday[today.getDay()];
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                m = checkTime(m);
+                s = checkTime(s);
+                nowTime = h + " giờ " + m + " phút " + s + " giây";
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+                tmp = '<span class="date"> ' + today + ' - ' + nowTime +
+                        '</span>';
+                document.getElementById("clock").innerHTML = tmp;
+                clocktime = setTimeout("time()", "1000", "Javascript");
+
+                function checkTime(i) {
+                    if (i < 10) {
+                        i = "0" + i;
+                    }
+                    return i;
+                }
+            }
+            //In dữ liệu
+            var myApp = new function () {
+                this.printTable = function () {
+                    var tab = document.getElementById('sampleTable');
+                    var win = window.open('', '', 'height=700,width=700');
+                    win.document.write(tab.outerHTML);
+                    win.document.close();
+                    win.print();
+                }
+            }
+            //     //Sao chép dữ liệu
+            //     var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
+
+            // copyTextareaBtn.addEventListener('click', function(event) {
+            //   var copyTextarea = document.querySelector('.js-copytextarea');
+            //   copyTextarea.focus();
+            //   copyTextarea.select();
+
+            //   try {
+            //     var successful = document.execCommand('copy');
+            //     var msg = successful ? 'successful' : 'unsuccessful';
+            //     console.log('Copying text command was ' + msg);
+            //   } catch (err) {
+            //     console.log('Oops, unable to copy');
+            //   }
+            // });
+
+
+            //Modal
+            $("#show-emp").on("click", function () {
+                $("#ModalUP").modal({backdrop: false, keyboard: false})
+            });
+        </script>
     </body>
 </html>
