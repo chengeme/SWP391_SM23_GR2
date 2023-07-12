@@ -47,6 +47,8 @@
     <servlet>
         <servlet-name>ManagerUpdateProductController</servlet-name>
         <servlet-class>Controller.Manager.ManagerUpdateProductController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CartController</servlet-name>
         <servlet-class>Controller.View.CartController</servlet-class>
     </servlet>
@@ -65,6 +67,42 @@
     <servlet>
         <servlet-name>CompareProductController</servlet-name>
         <servlet-class>Controller.View.CompareProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerOrderController</servlet-name>
+        <servlet-class>Controller.Manager.ManagerOrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerAddOrderController</servlet-name>
+        <servlet-class>Controller.Manager.ManagerAddOrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>Controller.View.AdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditProductController</servlet-name>
+        <servlet-class>Controller.View.EditProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerOrderDetailController</servlet-name>
+        <servlet-class>Controller.Manager.ManagerOrderDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerFeedbackController</servlet-name>
+        <servlet-class>Controller.Manager.ManagerFeedbackController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>Controller.Admin.OrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteOrderController</servlet-name>
+        <servlet-class>Controller.Admin.DeleteOrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerUpdateOrderController</servlet-name>
+        <servlet-class>Controller.Manager.ManagerUpdateOrderController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
@@ -115,6 +153,8 @@
     <servlet-mapping>
         <servlet-name>ManagerUpdateProductController</servlet-name>
         <url-pattern>/manager/ManagerUpdateProductController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>CartController</servlet-name>
         <url-pattern>/view/CartController</url-pattern>
     </servlet-mapping>
@@ -133,6 +173,42 @@
     <servlet-mapping>
         <servlet-name>CompareProductController</servlet-name>
         <url-pattern>/view/CompareProductController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerOrderController</servlet-name>
+        <url-pattern>/manager/ManagerOrderController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerAddOrderController</servlet-name>
+        <url-pattern>/manager/ManagerAddOrderController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/admin/AdminController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditProductController</servlet-name>
+        <url-pattern>/admin/editproduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerOrderDetailController</servlet-name>
+        <url-pattern>/manager/ManagerOrderDetailController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerFeedbackController</servlet-name>
+        <url-pattern>/manager/ManagerFeedbackController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/admin/OrderController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteOrderController</servlet-name>
+        <url-pattern>/admin/DeleteOrderController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerUpdateOrderController</servlet-name>
+        <url-pattern>/manager/ManagerUpdateOrderController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

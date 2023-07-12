@@ -4,6 +4,7 @@
     Author     : laptop
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,15 +108,15 @@
             </div>
             <hr>
             <ul class="app-menu">
-                <li><a class="app-menu__item active" href="homepage.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                <li><a class="app-menu__item active" href="ManagerHompageController"><i class='app-menu__icon bx bx-tachometer'></i><span
                             class="app-menu__label">Bảng điều khiển</span></a></li>
 
-                <li><a class="app-menu__item" href="productmanager.jsp"><i
+                <li><a class="app-menu__item " href="ManagerProductController"><i
                             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Danh sách sản phẩm</span></a>
                 </li>
-                <li><a class="app-menu__item" href="ordermanager.jsp"><i class='app-menu__icon bx bx-task'></i><span
+                <li><a class="app-menu__item" href="ManagerOrderController"><i class='app-menu__icon bx bx-task'></i><span
                             class="app-menu__label">Danh sách đơn hàng</span></a></li>
-                <li><a class="app-menu__item" href="accountmanager.jsp"><i class='app-menu__icon bx bx-run'></i><span
+                <li><a class="app-menu__item" href="ManagerFeedbackController"><i class='app-menu__icon bx bx-run'></i><span
                             class="app-menu__label">Đánh giá </span></a></li>
                 <li><a class="app-menu__item" href="incomemanager.jsp"><i
                             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
@@ -142,7 +143,7 @@
                             <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
                                 <div class="info">
                                     <h4>Tổng sản phẩm</h4>
-                                    <p><b>1850 sản phẩm</b></p>
+                                    <p><b>${countP} sản phẩm</b></p>
                                     <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
                                 </div>
                             </div>
@@ -152,8 +153,8 @@
                             <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
                                 <div class="info">
                                     <h4>Tổng đơn hàng</h4>
-                                    <p><b>247 đơn hàng</b></p>
-                                    <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
+                                    <p><b>${countO} đơn hàng</b></p>
+                                    <p class="info-tong">Tổng số hóa đơn bán hàng.</p>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +168,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- col-6 -->
+                        <!--col-6--> 
                         <div class="col-md-6">
                             <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
                                 <div class="info">
@@ -261,95 +262,25 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>ID đơn hàng</th>
+                                                <th>Mã đơn hàng</th>
                                                 <th>Tên khách hàng</th>
                                                 <th>Tổng tiền</th>
-                                                <th>Trạng thái</th>
+                                                <th>Trạng thái đơn hàng</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>AL3947</td>
-                                                <td>Phạm Thị Ngọc</td>
-                                                <td>
-                                                    19.770.000 đ
-                                                </td>
-                                                <td><span class="badge bg-info">Chờ xử lý</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>ER3835</td>
-                                                <td>Nguyễn Thị Mỹ Yến</td>
-                                                <td>
-                                                    16.770.000 đ	
-                                                </td>
-                                                <td><span class="badge bg-warning">Đang vận chuyển</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>MD0837</td>
-                                                <td>Triệu Thanh Phú</td>
-                                                <td>
-                                                    9.400.000 đ	
-                                                </td>
-                                                <td><span class="badge bg-success">Đã hoàn thành</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>MT9835</td>
-                                                <td>Đặng Hoàng Phúc	</td>
-                                                <td>
-                                                    40.650.000 đ	
-                                                </td>
-                                                <td><span class="badge bg-danger">Đã hủy	</span></td>
-                                            </tr>
+                                            <c:forEach items="${listO}" var="o">
+                                                <tr>
+                                                    <td><a style="color: #ff6666" href="ManagerOrderDetailController?id=${o.getOrderID()}">${o.getOrderID()}</a></td>
+                                                    <td>${o.getName_user()}</td>
+                                                    <td>${o.getPrice_order()}</td>
+                                                    <td>${o.getStatus()}</td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
                                 <!-- / div trống-->
-                            </div>
-                        </div>
-                        <!-- / col-12 -->
-                        <!-- col-12 -->
-                        <div class="col-md-12">
-                            <div class="tile">
-                                <h3 class="tile-title">Khách hàng mới</h3>
-                                <div>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Tên khách hàng</th>
-                                                <th>Ngày sinh</th>
-                                                <th>Số điện thoại</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#183</td>
-                                                <td>Hột vịt muối</td>
-                                                <td>21/7/1992</td>
-                                                <td><span class="tag tag-success">0921387221</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#219</td>
-                                                <td>Bánh tráng trộn</td>
-                                                <td>30/4/1975</td>
-                                                <td><span class="tag tag-warning">0912376352</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#627</td>
-                                                <td>Cút rang bơ</td>
-                                                <td>12/3/1999</td>
-                                                <td><span class="tag tag-primary">01287326654</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#175</td>
-                                                <td>Hủ tiếu nam vang</td>
-                                                <td>4/12/20000</td>
-                                                <td><span class="tag tag-danger">0912376763</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
                             </div>
                         </div>
                         <!-- / col-12 -->

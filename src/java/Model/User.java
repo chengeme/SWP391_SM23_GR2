@@ -7,7 +7,16 @@ package Model;
 public class User {
     // nhap vao userName,password,name(fullname),age(dob),phone_Number,email
     // them address
-    private String userID, username, password, user_roleID, name, age, user_sexID, address, phone_number, avatar, register_code, email, status="1";
+    private String userID, username, password, user_roleID, name, age, user_sexID,
+            address, phone_number, avatar, register_code, email, status="1";
+
+    public User(String userID, String name, String address, String phone_number, String email) {
+        this.userID = userID;
+        this.name = name;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
 
     public User() {
     }
@@ -135,6 +144,11 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userID=" + userID + ", username=" + username + ", password=" + password + ", user_roleID=" + user_roleID + ", name=" + name + ", age=" + age + ", user_sexID=" + user_sexID + ", address=" + address + ", phone_number=" + phone_number + ", avatar=" + avatar + ", register_code=" + register_code + ", email=" + email + ", status=" + status + '}';
     }
     
 }

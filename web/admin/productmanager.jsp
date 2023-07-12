@@ -4,11 +4,22 @@
     Author     : trand
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+<html>
+
+  
 
     <head>
+        <title>Left Box Text</title>
+  <style>
+    .left-box {
+      float: left;
+      margin-bottom: 10px
+    }
+  </style>
         <link rel="icon" href="image/icon.png" type="image/x-icon"/>
         <title>Danh sách nhân viên | Quản trị Admin</title>
         <meta charset="utf-8">
@@ -26,7 +37,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-
+           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
 
     <body onload="time()" class="app sidebar-mini rtl">
@@ -58,7 +74,7 @@
                             class="app-menu__label">Bảng điều khiển</span></a></li>
                 <li><a class="app-menu__item " href="usermanager.jsp"><i class='app-menu__icon bx bx-id-card'></i> <span
                             class="app-menu__label">Quản lý người dùng</span></a></li>
-                <li><a class="app-menu__item active" href="productmanager.jsp"><i
+                <li><a class="app-menu__item active" href="AdminController"><i
                             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
                 </li>
                 <li><a class="app-menu__item" href="ordermanager.jsp"><i class='app-menu__icon bx bx-task'></i><span
@@ -71,6 +87,7 @@
                 </li>
             </ul>
         </aside>
+        
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb side">
@@ -85,36 +102,30 @@
                             <div class="row element-button">
                                 <div class="col-sm-2">
 
-                                    <a class="btn btn-add btn-sm" href="addproduct.jsp" title="Thêm"><i class="fas fa-plus"></i>
+                                    <a class="btn btn-add btn-sm" href="editproduct?action=add" title="Thêm"><i class="fas fa-plus"></i>
                                         Tạo mới sản phẩm</a>
                                 </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập" onclick="myFunction(this)"><i
-                                            class="fas fa-file-upload"></i> Tải từ file</a>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick="myApp.printTable()"><i
-                                            class="fas fa-print"></i> In dữ liệu</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i
-                                            class="fas fa-copy"></i> Sao chép</a>
-                                </div>
-
+ 
                                 <div class="col-sm-2">
                                     <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
                                 </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i
-                                            class="fas fa-file-pdf"></i> Xuất PDF</a>
-                                </div>
+                                
                                 <div class="col-sm-2">
                                     <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
                                             class="fas fa-trash-alt"></i> Xóa tất cả </a>
                                 </div>
+                                
+                                
                             </div>
-                            <table class="table table-hover table-bordered" id="sampleTable">
+                            <label >Tim kiem</label>
+                                   <div >
+                                       <form action="AdminController" method="get">
+                                    <input value="${search}" name="search" type="text" class="left-box"/>
+                                     <input type="submit" hidden/>
+                                       </form>
+                                </div>
+                            
+                            <table class="table table-hover table-bordered" id="Table">
                                 <thead>
                                     <tr>
                                         <th width="10"><input type="checkbox" id="all"></th>
@@ -124,84 +135,36 @@
                                         <th>Mô tả</th>
                                         <th>Ảnh</th>
                                         <th>Số lượng</th>
-                                        <th>Tình trạng</th>
+                                        
                                         <th>Giá tiền</th>
-                                        <th>Tính năng</th>
+                                        <th>Tình trạng</th>
+                                        <th>Date</th>
+                                        <th>Chức năng</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:forEach items="${product}" var="p">
                                     <tr>
-                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                        <td>Mã sản phẩm</td>
-                                        <td>Loại sản phẩm</td>
-                                        <td>Tên sản phẩm</td>
-                                        <td>Mô tả</td>
-                                        <td>Ảnh</td>
-                                        <td>Số lượng</td>
-                                        <td>Tình trạng</td>
-                                        <td>Giá tiền</td>
-                                        <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                    onclick="myFunction(this)"><i class="fas fa-trash-alt"></i> 
-                                            </button>
-                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                                    data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
+                                        <!--<td width="10"><input type="checkbox" name="check1" value="1"></td>-->
+                                        
+                                        <td></td>
+                                        <td>${p.productID}</td>
+                                        <td>${p.categories.name}</td>
+                                        <td>${p.name}</td>
+                                        <td>${p.desciption}</td>
+                                        <td > <img class="col-4" src="${p.picture}"> <img class="col-4" src="${p.picture2}">  <img class="col-4" src="${p.picture3}"></td>
+                                        <td>${p.quantity}</td>
+                                        <td>${p.price}</td> 
+                                        <td>${p.status}</td>  
+                                         <td style="width: 100px;">${p.date}</td> 
+                                        
+                                        <td><a href="editproduct?id=${p.productID}&action=edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="editproduct" class="delete" data-toggle="modal" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                        <td>Mã sản phẩm</td>
-                                        <td>Loại sản phẩm</td>
-                                        <td>Tên sản phẩm</td>
-                                        <td>Mô tả</td>
-                                        <td>Ảnh</td>
-                                        <td>Số lượng</td>
-                                        <td>Tình trạng</td>
-                                        <td>Giá tiền</td>
-                                        <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                    onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                                    data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                        <td>Mã sản phẩm</td>
-                                        <td>Loại sản phẩm</td>
-                                        <td>Tên sản phẩm</td>
-                                        <td>Mô tả</td>
-                                        <td>Ảnh</td>
-                                        <td>Số lượng</td>
-                                        <td>Tình trạng</td>
-                                        <td>Giá tiền</td>
-                                        <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                    onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                                    data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                        <td>Mã sản phẩm</td>
-                                        <td>Loại sản phẩm</td>
-                                        <td>Tên sản phẩm</td>
-                                        <td>Mô tả</td>
-                                        <td>Ảnh</td>
-                                        <td>Số lượng</td>
-                                        <td>Tình trạng</td>
-                                        <td>Giá tiền</td>
-                                        <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                    onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                                    data-target="#ModalUP"><i class="fas fa-edit"></i></button> 
-                                        </td>
-                                    </tr>
+                                    </c:forEach>
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -210,81 +173,7 @@
             </div>
         </main>
 
-        <!--
-          MODAL
-        -->
-        <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
-             data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group  col-md-12">
-                                <span class="thong-tin-thanh-toan">
-                                    <h5>Chỉnh sửa thông tin sản phẩm</h5>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mã sản phẩm </label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Danh mục</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Tên sản phẩm</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mô tả</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Ảnh</label>
-                                <input class="form-control" type="file">
-                            </div>
-                            <div class="form-group  col-md-6">
-                                <label class="control-label">Số lượng</label>
-                                <input class="form-control" type="number">
-                            </div>
-                            <div class="form-group col-md-6 ">
-                                <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
-                                <select class="form-control" id="exampleSelect1">
-                                    <option>Còn hàng</option>
-                                    <option>Hết hàng</option>
-                                    <option>Đang nhập hàng</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Giá bán</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="exampleSelect1" class="control-label">Danh mục</label>
-                                <select class="form-control" id="exampleSelect1">
-                                    <option>Tai nghe</option>
-                                    <option>Bàn phím</option>
-                                    <option>Chuột</option>
-                                </select>
-                            </div>
-                        </div>
-                        <BR>
-                        <button class="btn btn-save" type="button">Lưu lại</button>
-                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                        <BR>
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--
-        MODAL
-        -->
+        
 
         <!-- Essential javascripts for application to work-->
         <script src="js/jquery-3.2.1.min.js"></script>
@@ -301,7 +190,7 @@
         <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript">
-                                                    $('#sampleTable').DataTable();
+                                                    
                                                     //Thời Gian
                                                     function time() {
                                                         var today = new Date();
@@ -342,33 +231,6 @@
                                                             return i;
                                                         }
                                                     }
-        </script>
-        <script>
-            function deleteRow(r) {
-                var i = r.parentNode.parentNode.rowIndex;
-                document.getElementById("myTable").deleteRow(i);
-            }
-            jQuery(function () {
-                jQuery(".trash").click(function () {
-                    swal({
-                        title: "Cảnh báo",
-                        text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
-                        buttons: ["Hủy bỏ", "Đồng ý"],
-                    })
-                            .then((willDelete) => {
-                                if (willDelete) {
-                                    swal("Đã xóa thành công.!", {
-
-                                    });
-                                }
-                            });
-                });
-            });
-            oTable = $('#sampleTable').dataTable();
-            $('#all').click(function (e) {
-                $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-                e.stopImmediatePropagation();
-            });
         </script>
     </body>
 

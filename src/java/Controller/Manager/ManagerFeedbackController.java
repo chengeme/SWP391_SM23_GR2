@@ -4,40 +4,30 @@
  */
 package Controller.Manager;
 
-import Dal.CategoriesDAO;
 import Dal.ManagerDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.PrintWriter;
 
-public class ManagerProductController extends HttpServlet {
+public class ManagerFeedbackController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-//        HttpSession session = req.getSession();
-//        if (session.getAttribute("") == null) {
-//            req.getRequestDispatcher("login.jsp").forward(req, resp);
-//        }
         ManagerDAO dao = new ManagerDAO();
-        CategoriesDAO cdao = new CategoriesDAO();
-        dao.getAllProduct();
-        req.setAttribute("dao", dao);
-        req.setAttribute("listP", dao.getProduct());
-        req.setAttribute("listC", cdao.GetCategoriesList());
-        req.getRequestDispatcher("productmanager.jsp").forward(req, resp);
-
+        dao.getFeedbackList();
+        req.setAttribute("listF", dao.getFeedback());
+//        req.setAttribute("listU", dao.getUserList());
+//System.out.println(dao.getFeedback().get(0).getOrderdetailID());
+        req.getRequestDispatcher("feedbackmanager.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+
     }
 
 }

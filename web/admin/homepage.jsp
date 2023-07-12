@@ -221,7 +221,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
                         <!-- / col-12 -->

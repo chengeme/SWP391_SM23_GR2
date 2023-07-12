@@ -11,6 +11,7 @@ package Model;
 public class Orderdetail {
 
     private String orderdetailID, orderdetail_orderID, quantity, price, orderdetail_productID, product_rate;
+    private User user;
 
     public Orderdetail() {
     }
@@ -85,6 +86,19 @@ public class Orderdetail {
 
     public void setProduct_rate(String product_rate) {
         this.product_rate = product_rate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Orderdetail{" + "orderdetailID=" + orderdetailID + ", orderdetail_orderID=" + orderdetail_orderID + ", quantity=" + quantity + ", price=" + price + ", orderdetail_productID=" + orderdetail_productID + ", product_rate=" + product_rate + ", user=" + user + '}';
     }
 
 }

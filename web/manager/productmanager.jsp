@@ -108,15 +108,15 @@
             </div>
             <hr>
             <ul class="app-menu">
-                <li><a class="app-menu__item " href="homepage.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                <li><a class="app-menu__item " href="ManagerHompageController"><i class='app-menu__icon bx bx-tachometer'></i><span
                             class="app-menu__label">Bảng điều khiển</span></a></li>
 
-                <li><a class="app-menu__item active" href="productmanager.jsp"><i
+                <li><a class="app-menu__item active" href="ManagerProductController"><i
                             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Danh sách sản phẩm</span></a>
                 </li>
-                <li><a class="app-menu__item" href="ordermanager.jsp"><i class='app-menu__icon bx bx-task'></i><span
+                <li><a class="app-menu__item" href="ManagerOrderController"><i class='app-menu__icon bx bx-task'></i><span
                             class="app-menu__label">Danh sách đơn hàng</span></a></li>
-                <li><a class="app-menu__item" href="accountmanager.jsp"><i class='app-menu__icon bx bx-run'></i><span
+                <li><a class="app-menu__item" href="ManagerFeedbackController"><i class='app-menu__icon bx bx-run'></i><span
                             class="app-menu__label">Đánh giá </span></a></li>
                 <li><a class="app-menu__item" href="incomemanager.jsp"><i
                             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
@@ -150,20 +150,7 @@
                                             class="fas fa-print"></i> In dữ liệu</a>
                                 </div>
                                 <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i
-                                            class="fas fa-copy"></i> Sao chép</a>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i
-                                            class="fas fa-file-pdf"></i> Xuất PDF</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
-                                            class="fas fa-trash-alt"></i> Xóa tất cả </a>
+                                    <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất file</a>
                                 </div>
                             </div>
                             <table class="table table-hover table-bordered" id="sampleTable">
@@ -176,8 +163,9 @@
                                         <th>Mô tả</th>
                                         <th>Ảnh</th>
                                         <th>Số lượng</th>
-                                        <th>Tình trạng</th>
                                         <th>Giá tiền</th>
+                                        <th>Tình trạng</th>
+                                        <th>Ngày nhập</th>
                                         <th>Tính năng</th>
                                     </tr>
                                 </thead>
@@ -186,20 +174,27 @@
                                         <tr>
                                             <td width="10"><input type="checkbox" name="check1" value="1"></td>
                                             <td>${o.getProductID()}</td>
-                                            <td>${o.getProduct_categoryID()}</td>
+                                            <td>${listC.get(o.getProduct_categoryID()-1).getName()}</td>
                                             <td>${o.getName()}</td>
                                             <td>${o.getDesciption()}</td>
-                                            <td><img src="${o.getPicture()}" alt="alt" width="150px"/></td>
+                                            <td><img src="${o.getPicture()}" alt="alt" width="100px"/>
+                                                <img src="${o.getPicture2()}" alt="alt" width="50px"/>
+                                                <img src="${o.getPicture3()}" alt="alt" width="50px"/>
+                                            </td>
                                             <td>${o.getQuantity()}</td>
-                                            <td>${o.getStatus()}</td>
                                             <td>${o.getPrice()}</td>
-                                            <td><a href="ManagerDeleteProduct?id=${o.getProductID()}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i> 
-                                                </button></a>
-                                                        <form action="ManagerProductController?Update">
-                                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-                                                        </form>
+                                            <td>${o.getStatus()}</td>
+                                            <td>${o.getDate()}</td>
+                                            <td><a href="ManagerDeleteProduct?id=${o.getProductID()}">
+                                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i> 
+                                                    </button>
+                                                </a>
+                                                <a href="ManagerUpdateProductController?id=${o.getProductID()}">
+                                                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -210,84 +205,84 @@
                 </div>
             </div>
         </main>
-
         <!--
-          MODAL
-        -->
-        <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
-             data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group  col-md-12">
-                                <span class="thong-tin-thanh-toan">
-                                    <h5>Chỉnh sửa thông tin sản phẩm</h5>
-                                </span>
+                
+                  MODAL
+                
+                <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+                     data-keyboard="false">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+        
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group  col-md-12">
+                                        <span class="thong-tin-thanh-toan">
+                                            <h5>Chỉnh sửa thông tin sản phẩm</h5>
+                                        </span>
+                                    </div>
+                                </div>
+                                <form action="ManagerProductController" method="post">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Mã sản phẩm </label>
+                                        <input class="form-control" type="" value="${pid}">
+                                        <div name="pid">${pid}</div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Danh mục</label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Tên sản phẩm</label>
+                                        <input class="form-control" type="text" value="${name}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Mô tả</label>
+                                        <input class="form-control" type="text" value="${desciption}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Ảnh</label>
+                                        <input class="form-control" type="file" value="${img}">
+                                    </div>
+                                    <div class="form-group  col-md-6">
+                                        <label class="control-label">Số lượng</label>
+                                        <input class="form-control" type="number" ${quantity}>
+                                    </div>
+                                    <div class="form-group col-md-6 ">
+                                        <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
+                                        <select class="form-control" id="exampleSelect1">
+                                            <option>Còn hàng</option>
+                                            <option>Hết hàng</option>
+                                            <option>Đang nhập hàng</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Giá bán</label>
+                                        <input class="form-control" type="text" value="${price}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleSelect1" class="control-label">Danh mục</label>
+                                        <select class="form-control" id="exampleSelect1" name="cid">
+                                            <option>Tai nghe</option>
+                                            <option>Bàn phím</option>
+                                            <option>Chuột</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <BR>
+                                <button class="btn btn-save" type="submit">Lưu lại</button>
+                                <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                <BR>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
                             </div>
                         </div>
-                        <form action="ManagerProductController" method="post">
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mã sản phẩm </label>
-<!--                                <input class="form-control" type="" value="${pid}">-->
-                                <div name="pid">${pid}</div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Danh mục</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Tên sản phẩm</label>
-                                <input class="form-control" type="text" value="${name}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mô tả</label>
-                                <input class="form-control" type="text" value="${desciption}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Ảnh</label>
-                                <input class="form-control" type="file" value="${img}">
-                            </div>
-                            <div class="form-group  col-md-6">
-                                <label class="control-label">Số lượng</label>
-                                <input class="form-control" type="number" ${quantity}>
-                            </div>
-                            <div class="form-group col-md-6 ">
-                                <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
-                                <select class="form-control" id="exampleSelect1">
-                                    <option>Còn hàng</option>
-                                    <option>Hết hàng</option>
-                                    <option>Đang nhập hàng</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Giá bán</label>
-                                <input class="form-control" type="text" value="${price}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="exampleSelect1" class="control-label">Danh mục</label>
-                                <select class="form-control" id="exampleSelect1" name="cid">
-                                    <option>Tai nghe</option>
-                                    <option>Bàn phím</option>
-                                    <option>Chuột</option>
-                                </select>
-                            </div>
-                        </div>
-                        <BR>
-                        <button class="btn btn-save" type="submit">Lưu lại</button>
-                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                        <BR>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
                     </div>
                 </div>
-            </div>
-        </div>
-        <!--
-        MODAL
+                
+                MODAL
         -->
 
         <!-- Essential javascripts for application to work-->
@@ -305,47 +300,47 @@
         <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript">
-                                                            $('#sampleTable').DataTable();
-                                                            //Thời Gian
-                                                            function time() {
-                                                                var today = new Date();
-                                                                var weekday = new Array(7);
-                                                                weekday[0] = "Chủ Nhật";
-                                                                weekday[1] = "Thứ Hai";
-                                                                weekday[2] = "Thứ Ba";
-                                                                weekday[3] = "Thứ Tư";
-                                                                weekday[4] = "Thứ Năm";
-                                                                weekday[5] = "Thứ Sáu";
-                                                                weekday[6] = "Thứ Bảy";
-                                                                var day = weekday[today.getDay()];
-                                                                var dd = today.getDate();
-                                                                var mm = today.getMonth() + 1;
-                                                                var yyyy = today.getFullYear();
-                                                                var h = today.getHours();
-                                                                var m = today.getMinutes();
-                                                                var s = today.getSeconds();
-                                                                m = checkTime(m);
-                                                                s = checkTime(s);
-                                                                nowTime = h + " giờ " + m + " phút " + s + " giây";
-                                                                if (dd < 10) {
-                                                                    dd = '0' + dd
-                                                                }
-                                                                if (mm < 10) {
-                                                                    mm = '0' + mm
-                                                                }
-                                                                today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-                                                                tmp = '<span class="date"> ' + today + ' - ' + nowTime +
-                                                                        '</span>';
-                                                                document.getElementById("clock").innerHTML = tmp;
-                                                                clocktime = setTimeout("time()", "1000", "Javascript");
-
-                                                                function checkTime(i) {
-                                                                    if (i < 10) {
-                                                                        i = "0" + i;
+                                                                $('#sampleTable').DataTable();
+                                                                //Thời Gian
+                                                                function time() {
+                                                                    var today = new Date();
+                                                                    var weekday = new Array(7);
+                                                                    weekday[0] = "Chủ Nhật";
+                                                                    weekday[1] = "Thứ Hai";
+                                                                    weekday[2] = "Thứ Ba";
+                                                                    weekday[3] = "Thứ Tư";
+                                                                    weekday[4] = "Thứ Năm";
+                                                                    weekday[5] = "Thứ Sáu";
+                                                                    weekday[6] = "Thứ Bảy";
+                                                                    var day = weekday[today.getDay()];
+                                                                    var dd = today.getDate();
+                                                                    var mm = today.getMonth() + 1;
+                                                                    var yyyy = today.getFullYear();
+                                                                    var h = today.getHours();
+                                                                    var m = today.getMinutes();
+                                                                    var s = today.getSeconds();
+                                                                    m = checkTime(m);
+                                                                    s = checkTime(s);
+                                                                    nowTime = h + " giờ " + m + " phút " + s + " giây";
+                                                                    if (dd < 10) {
+                                                                        dd = '0' + dd
                                                                     }
-                                                                    return i;
+                                                                    if (mm < 10) {
+                                                                        mm = '0' + mm
+                                                                    }
+                                                                    today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+                                                                    tmp = '<span class="date"> ' + today + ' - ' + nowTime +
+                                                                            '</span>';
+                                                                    document.getElementById("clock").innerHTML = tmp;
+                                                                    clocktime = setTimeout("time()", "1000", "Javascript");
+
+                                                                    function checkTime(i) {
+                                                                        if (i < 10) {
+                                                                            i = "0" + i;
+                                                                        }
+                                                                        return i;
+                                                                    }
                                                                 }
-                                                            }
         </script>
         <script>
             function deleteRow(r) {

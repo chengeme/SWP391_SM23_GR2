@@ -4,8 +4,13 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import Model.Categories;
 import Model.Products;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.tomcat.dbcp.dbcp2.PStmtKey;
 
 /**
@@ -157,6 +162,111 @@ public class ProductDAO extends ConnectMySQL {
         }
         return data;
     }
+    
+   public List<Products> searchProducts(String keyword) {
+       
+       List<Products> data = new ArrayList<>();
+        try {
+            String sqlSelect = "Select * from product where name like ?  ";
+            pstm = connection.prepareStatement(sqlSelect);
+              pstm.setString(1, "%" + keyword + "%");
+             rs = pstm.executeQuery();
+            while (rs.next()) {
+                       Products p = new Products();
+                       p.setProductID(String.valueOf(rs.getInt(1)));
+                       String categories = String.valueOf(rs.getInt(2));
+                       p.setProduct_categoryID(categories);
+                       p.setName(String.valueOf(rs.getString(3)));
+                       p.setDesciption(String.valueOf(rs.getString(4)));
+                       p.setPicture( rs.getString(5));
+                       p.setPicture2( rs.getString(6));
+                       p.setPicture3( rs.getString(7));
+                       p.setPrice(String.valueOf(rs.getFloat(8)));
+                       p.setQuantity(String.valueOf(rs.getInt(9)));
+                       p.setStatus(String.valueOf(rs.getInt(10)));
+                       p.setDate(String.valueOf(rs.getDate(12)));
+                       p.setCategories(new CategoriesDAO().getCategoryById(categories));
+                       data.add(p);
+                    }          
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return data;
+   }
+    public Products getProductsByID(String id) {
+       
+        try {
+            String sqlSelect = "Select * from product where ProductID="+ id;
+            pstm = connection.prepareStatement(sqlSelect);
+             rs = pstm.executeQuery();
+            if (rs.next()) {
+                       Products p = new Products();
+                       p.setProductID(String.valueOf(rs.getInt(1)));
+                       String categories = String.valueOf(rs.getInt(2));
+                       p.setProduct_categoryID(categories);
+                       
+                       p.setName(String.valueOf(rs.getString(3)));
+                       p.setDesciption(String.valueOf(rs.getString(4)));
+                       p.setPicture( rs.getString(5));
+                       p.setPicture2( rs.getString(6));
+                       p.setPicture3( rs.getString(7));
+                       p.setPrice(String.valueOf(rs.getFloat(8)));
+                       p.setQuantity(String.valueOf(rs.getInt(9)));
+                       p.setStatus(String.valueOf(rs.getInt(10)));
+                       p.setCategories(new CategoriesDAO().getCategoryById(categories));
+                       return p;
+                    }          
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return null;
+   }
+    public void updateProduct(Products p){
+        try {
+            String sql = "UPDATE product\n" +
+                    "SET product_categoryID=?,name=?,desciption=?,picture=?,picture2=?,picture3=?,price=?,quantity=?,status=?\n" +
+                    "WHERE productID=?;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, Integer.parseInt(p.getProduct_categoryID()));
+            stm.setString(2, p.getName());
+            stm.setString(3, p.getDesciption());
+            stm.setString(4, p.getPicture());
+            stm.setString(5, p.getPicture2());
+            stm.setString(6, p.getPicture3());
+            stm.setFloat(7, Float.parseFloat(p.getPrice()) );
+            stm.setInt(8, Integer.parseInt(p.getQuantity()));
+            stm.setBoolean(9, p.getStatus().equals("1"));
+            stm.setInt(10, Integer.parseInt(p.getProductID()));
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void addNewProduct(Products p){
+        try {
+            String sql ="INSERT INTO swp.`product` "
+                    + "(product_categoryID, name, desciption, picture, picture2, picture3, price, quantity, status) "
+                    + "VALUES\n" +
+                    " (?, ?, ?, ?, ?, \n" +
+                    "?, ?, ?, ?);";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, Integer.parseInt(p.getProduct_categoryID()));
+            stm.setString(2, p.getName());
+            stm.setString(3, p.getDesciption());
+            stm.setString(4, p.getPicture());
+            stm.setString(5, p.getPicture2());
+            stm.setString(6, p.getPicture3());
+            stm.setFloat(7, Float.parseFloat(p.getPrice()) );
+            stm.setInt(8, Integer.parseInt(p.getQuantity()));
+            stm.setBoolean(9, p.getStatus().equals("1"));
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 
     public ArrayList<Products> getProductListByType(String type) {
         ArrayList<Products> data = new ArrayList<>();
@@ -278,41 +388,24 @@ public class ProductDAO extends ConnectMySQL {
 
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
-        System.out.println(productDAO.decreaseProductAmount("1", "5"));
-//        Products p = productDAO.getProductByID("1");
-//        System.out.println("productid: " + p.getProductID() + " ");
-//        System.out.println("categoriID: " + p.getProduct_categoryID() + " ");
-//        System.out.println("Name: " + p.getName() + " ");
-//        System.out.println("Description: " + p.getDesciption() + " ");
-//        System.out.println("picture: " + p.getPicture() + " ");
-//        System.out.println("picture2: " + p.getPicture2() + " ");
-//        System.out.println("picture3: " + p.getPicture3() + " ");
-//        System.out.println("price: " + p.getPrice() + " ");
-//        System.out.println("quantity: " + p.getQuantity() + " ");
-//        System.out.println("status: " + p.getStatus() + " ");
-//        System.out.println("sale: " + p.getSale() + " ");
-//        System.out.println("rateStar: " + p.getRateStar() + " ");
-//        System.out.println("saleprice: " + p.getSalePrice() + " ");
-//        System.out.println("");
-//        System.out.println(productDAO.getProductListByType("HighPrice").size());
-//        System.out.println("getProductAmount: " + productDAO.getProductAmount("2"));
-        // Định dạng số với dấu chấm
-//        int size = productDAO.getProductListByCategoryIDAndNameAndSort("1","a","ascendingSalePrice").size();
-//        size = productDAO.BestSellerProducts().size();
-//        size=productDAO.getProductListByCategoryIDAndSort("1", "rate").size();
-//        System.out.println(size);
-//        System.out.println(formattedNumber);
-//        for (Products p : productDAO.getProductListByCategoryIDAndNameAndSort("1", "Corsair HS70", "rate")) {
+        
+        for(Products p  :productDAO.searchProducts("")){
+            System.out.println(p.getCategories().getName());
+            
+        }
+ //         System.out.println(productDAO.getProductsByID("1").getName());
+//            
+//        for (Products p : productDAO.getProductListByCategoryIDAndSort("", "descendingSalePrice")) {
 //            System.out.println("productid: " + p.getProductID() + " ");
-//            System.out.println("categoriID: " + p.getProduct_categoryID() + " ");
+//            System.out.println("categoriID: " + p.getProduct_categoryID()+ " ");
 //            System.out.println("Name: " + p.getName() + " ");
-//            System.out.println("Description: " + p.getDesciption() + " ");
-//            System.out.println("picture: " + p.getPicture() + " ");
-//            System.out.println("picture2: " + p.getPicture2() + " ");
-//            System.out.println("picture3: " + p.getPicture3() + " ");
+//            System.out.println("Description: " + p.getDesciption()+ " ");
+//            System.out.println("picture: " + p.getPicture()+ " ");
+//            System.out.println("picture2: " + p.getPicture2()+ " ");
+//            System.out.println("picture3: " + p.getPicture3()+ " ");
 //            System.out.println("price: " + p.getPrice() + " ");
-//            System.out.println("quantity: " + p.getQuantity() + " ");
-//            System.out.println("status: " + p.getStatus() + " ");
+//            System.out.println("quantity: " + p.getQuantity()+ " ");
+//            System.out.println("status: " + p.getStatus()+ " ");
 //            System.out.println("sale: " + p.getSale() + " ");
 //            System.out.println("rateStar: " + p.getRateStar() + " ");
 //            System.out.println("saleprice: " + p.getSalePrice() + " ");

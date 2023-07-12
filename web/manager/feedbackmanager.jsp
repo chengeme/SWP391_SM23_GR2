@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ordermanager
-    Created on : 24-05-2023, 01:35:02
-    Author     : trand
+    Document   : feedbackmanager
+    Created on : Jul 11, 2023, 1:50:02 AM
+    Author     : laptop
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -114,9 +114,9 @@
                 <li><a class="app-menu__item " href="ManagerProductController"><i
                             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Danh sách sản phẩm</span></a>
                 </li>
-                <li><a class="app-menu__item active" href="ManagerOrderController"><i class='app-menu__icon bx bx-task'></i><span
+                <li><a class="app-menu__item" href="ManagerOrderController"><i class='app-menu__icon bx bx-task'></i><span
                             class="app-menu__label">Danh sách đơn hàng</span></a></li>
-                <li><a class="app-menu__item" href="ManagerFeedbackController"><i class='app-menu__icon bx bx-run'></i><span
+                <li><a class="app-menu__item active" href="ManagerFeedbackController"><i class='app-menu__icon bx bx-run'></i><span
                             class="app-menu__label">Đánh giá </span></a></li>
                 <li><a class="app-menu__item" href="incomemanager.jsp"><i
                             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
@@ -126,7 +126,7 @@
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb side">
-                    <li class="breadcrumb-item active"><a href="#"><b>Danh sách đơn hàng</b></a></li>
+                    <li class="breadcrumb-item active"><a href="#"><b>Đánh giá</b></a></li>
                 </ul>
                 <div id="clock"></div>
             </div>
@@ -135,56 +135,45 @@
                     <div class="tile">
                         <div class="tile-body">
                             <div class="row element-button">
-                                <!--                                <div class="col-sm-2">
-                                                                    <a class="btn btn-add btn-sm" href="addorder.jsp" title="Thêm"><i class="fas fa-plus"></i>
-                                                                        Tạo mới đơn hàng</a>
-                                                                </div>-->
                                 <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick="myApp.printTable()"><i
-                                            class="fas fa-print"></i> In dữ liệu</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất file</a>
+                                    <a class="btn btn-add btn-sm" href="" title="Thêm"><i class="fas fa-plus"></i>
+                                        Tạo mới đánh giá</a>
                                 </div>
                             </div>
                             <table class="table table-hover table-bordered" id="sampleTable">
                                 <thead>
                                     <tr>
                                         <th width="10"><input type="checkbox" id="all"></th>
-                                        <th>Mã đơn hàng</th>
+                                        <th>ID đánh giá</th>
+                                        <th>Sản phẩm</th>
                                         <th>Khách hàng</th>
-                                        <th>Tư vấn viên</th>
-                                        <th>Ngày tạo đơn</th>
-                                        <th>Trạng thái đơn hàng</th>
-                                        <th>Tổng tiền</th>
-<!--                                        <th>Ghi chú</th>-->
-                                        <th>Tính năng</th>
+                                        <th>Nội dung</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Tình trạng</th>
+                                        <th>Chi tiết đơn hàng</th>
+                                        <th>Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listO}" var="o">
-                                        <tr>
-                                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                            <td><a style="color: #ff6666" href="ManagerOrderDetailController?id=${o.getOrderID()}">${o.getOrderID()}</a></td>
-                                            <td>${o.getName_user()}</td>
-                                            <td>${o.getOrder_salecodeID()}</td>
-                                            <td>${o.getDate()}</td>
-                                            <td>${o.getStatus()}</td>
-                                            <td>${o.getPrice_order()}</td>
-                                            <!--<td>${o.getNote()}</td>-->
-                                            <td>
+                                <c:forEach items="${listF}" var="o">
+                                    <tr>
+                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                                        <td>${o.getFeedbackID()}</td>
+                                        <td>${o.getProductName()}</td>
+                                        <td>${o.getUsername()}</td>
+                                        <td>${o.getInformation()}</td>
+                                        <td>${o.getDate()}</td>
+                                        <td>${o.getStatus()}</td>
+                                        <td>${o.getOrderdetailID()}</td>
+                                        <td>
+                                            <!--<a href="ManagerDeleteOrderController?id=${o.getFeedbackID()}">-->
                                                 <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
                                                         onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
                                                 </button>
-                                                </a>
-                                                <a href="ManagerUpdateOrderController?id=${o.getOrderID()}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa">
-                                                    <i class="fas fa-edit"></i>
-                                                    </button>
-                                                </a>
-
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+                                            <!--</a>-->
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -218,7 +207,7 @@
                     swal({
                         title: "Cảnh báo",
 
-                        text: "Bạn có chắc chắn là muốn xóa đơn hàng này?",
+                        text: "Bạn có chắc chắn là muốn xóa nhân viên này?",
                         buttons: ["Hủy bỏ", "Đồng ý"],
                     })
                             .then((willDelete) => {
@@ -322,5 +311,4 @@
             });
         </script>
     </body>
-
 </html>
